@@ -1,4 +1,4 @@
-# GLM-extras
+# GLM Extras
 
 Just some convenience functions for running regressions with R's `glm` and
 calculating R-squared.
@@ -19,6 +19,8 @@ install.packages('glm-extras-0.0.0.tar.gz')
 ## Usage: `regCompact`
 
 ```
+library(glmExtras)
+### Simulate data
 # Sample size
 n <- 10000
 # This results in Y~N(0,1)
@@ -54,7 +56,7 @@ for (pheno in names(phenotypes)) {
 This functionality is useful for calculating various R-squared statistics.
 
 ```
-m <- glm(y~x, data=dta, family=binomial)
+m <- glm(yth~x, data=dta, family=binomial)
 mR2 <- R2Wrap(m)
 R2.Nagelkerke(mR2)
 R2.scaleLiability(mR2, prevalence=0.1)
