@@ -8,7 +8,14 @@ R2Wrap(mod, cases = NA_integer_, controls = NA_integer_)
 }
 \arguments{
 \item{mod}{The fitted model object}
+
+\item{cases}{N of \code{y=1}}
+
+\item{controls}{N of \code{y=0}}
 }
 \description{
-Bla bla
+The parameters \code{cases} and \code{controls} is relevant when analyzing a binary
+phenotype with a linear model (\code{glm(..., family="gaussian")}), in which
+\code{p*(1-p)} is used as a denominator for \code{R2.scaleObserved} instead of
+\code{var(y)}. For binomial models these arguments can be ignored.
 }

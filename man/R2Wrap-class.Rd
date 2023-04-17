@@ -14,9 +14,9 @@ An S4 class to contain a fitted model object
 
 \item{\code{validModels}}{The accepted type of models}
 
-\item{\code{cases}}{The number of cases in the sample}
+\item{\code{cases}}{The number of \code{y=1}}
 
-\item{\code{controls}}{The number of controls in the sample}
+\item{\code{controls}}{The number of \code{y=0}}
 
 \item{\code{N}}{The sample size}
 }}

@@ -5,6 +5,7 @@
 #' `p*(1-p)` is used as a denominator for `R2.scaleObserved` instead of
 #' `var(y)`. For binomial models these arguments can be ignored.
 #'
+#' @export
 #' @param mod The fitted model object
 #' @param cases N of `y=1`
 #' @param controls N of `y=0`
@@ -14,6 +15,7 @@ R2Wrap <- function (mod, cases=NA_integer_, controls=NA_integer_) {
 
 #' An S4 class to contain a fitted model object
 #'
+#' @export
 #' @slot model The type of model used
 #' @slot validModels The accepted type of models
 #' @slot cases The number of `y=1`
@@ -143,6 +145,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
           })
 
 # Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
+#' @export
 setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserved'))
 setMethod('R2.scaleObserved', signature='glm-binomial',
           function (object) {
@@ -162,17 +165,22 @@ setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
           })
 
 # Sometimes referred to as Cohen R2 (probably from a textbook)
+#' @export
 setGeneric('R2.likelihood', function (object) standardGeneric('R2.likelihood'))
 setMethod('R2.likelihood', signature = 'R2Wrap',
           function (object) {
             with(object@model, 1 - deviance/null.deviance)
           })
+
+#' @export
 setGeneric('R2.Nagelkerke', function (object) standardGeneric('R2.Nagelkerke'))
 setMethod('R2.Nagelkerke', signature='R2Wrap',
           function (object) {
             n <- object@N
             with(object@model, (1 - exp((deviance - null.deviance)/n))/(1 - exp(-null.deviance/n)))
           })
+
+#' @export
 setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
 setMethod('R2.CoxSnell', signature='glm-gaussian',
           function (object) {

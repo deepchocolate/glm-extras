@@ -13,11 +13,13 @@ regCompact(phenotype, exposure, covariates, binary, dta, clustering = F)
 
 \item{covariates}{Variables to adjust the exposure for, eg "COV1 + COV2"}
 
-\item{binary}{Pass TRUE to runa binomial/logistic model.}
+\item{binary}{Pass TRUE to run a binomial/logistic model.}
 
 \item{dta}{A data.frame containing all necessary variables}
 
 \item{clustering}{Pass the name of the clustering variable in dta to add cluster robust confidence intervals.}
+
+\item{r2s}{A vector of R2 measures to calculate in addition to the default.}
 }
 \value{
 \code{regCompact} returns a data.frame with the following statistics.\tabular{ll}{
@@ -33,7 +35,6 @@ regCompact(phenotype, exposure, covariates, binary, dta, clustering = F)
    \code{u95r} \tab Robust version of \code{u95} if clustering is used \cr
    \code{r2} \tab R-squared, for a continuous exposure and outcome, this is the square of \code{beta} \cr
     \tab For a binary phenotype, this is the observed scale R-squared \cr
-   \code{r2Nagelkerke} \tab Nagelkerke's R-squared (if requested) \cr
    \code{family} \tab Regression family, either gaussian or binomial \cr
    \code{n} \tab Number of observations \cr
    \code{pheno_na} \tab Missingness in phenotype \cr
@@ -45,6 +46,10 @@ Run a regression phenotype~exposure + covariate 1 + covariate 2 and extract
 parameters in a tabular format.
 For binary=F, both phenotype and exposure will be standardized to mean 0 and
 unit variance. For binary=T, exposure will be standardized.
+}
+\details{
+\code{regCompact} calculates incremental R-squared for \code{exposure} by default.
+
 For clustered data (eg samples from families) the clustering argument can be
 used to calculate cluster robust confidence intervals (see sandwhich::vcovCL)
 }
