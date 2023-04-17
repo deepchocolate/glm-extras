@@ -4,14 +4,18 @@
 #' parameters in a tabular format.
 #' For binary=F, both phenotype and exposure will be standardized to mean 0 and
 #' unit variance. For binary=T, exposure will be standardized.
+#'
+#' `regCompact` calculates incremental R-squared for `exposure` by default.
+#'
 #' For clustered data (eg samples from families) the clustering argument can be
 #' used to calculate cluster robust confidence intervals (see sandwhich::vcovCL)
 #'
 #' @param phenotype Variable to analyze.
 #' @param exposure Exposure variable
 #' @param covariates Variables to adjust the exposure for, eg "COV1 + COV2"
-#' @param binary Pass TRUE to runa binomial/logistic model.
+#' @param binary Pass TRUE to run a binomial/logistic model.
 #' @param dta A data.frame containing all necessary variables
+#' @param r2s A vector of R2 measures to calculate in addition to the default.
 #' @param clustering Pass the name of the clustering variable in dta to add cluster robust confidence intervals.
 #' @returns `regCompact` returns a data.frame with the following statistics.
 #'
@@ -28,7 +32,6 @@
 #' `u95r` | Robust version of `u95` if clustering is used
 #' `r2` | R-squared, for a continuous exposure and outcome, this is the square of `beta`
 #' |  | For a binary phenotype, this is the observed scale R-squared
-#' `r2Nagelkerke` | Nagelkerke's R-squared (if requested)
 #' `family` | Regression family, either gaussian or binomial
 #' `n` | Number of observations
 #' `pheno_na` | Missingness in phenotype
@@ -46,7 +49,7 @@ regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering
   # Calculate incremental R2
   if (binary == F) {
     R2 <- cfs[1]^2
-    R2N <- NULL
+    R2N <- NA
   } else {
     R2.m1 <- R2Wrap(m)
     m2 <- update(m, as.formula(paste0('. ~ . -', exposure)))

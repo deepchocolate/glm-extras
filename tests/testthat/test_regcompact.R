@@ -23,5 +23,12 @@ test_that('Testing regCompact', {
   mc <- regCompact('yth', 'x', '', T, dta)
   expect_equal(mc$beta, coef(m)[['x']])
   expect_equal(mc$r2Nagelkerke, r2)
-  print(mc$R2)
+  expect_equal(mc$family, 'binomial')
+  # Run a regression on a continuous measure
+  m <- glm(y~x, data=dta)
+  mc <- regCompact('y', 'x', '', F, dta)
+  # beta will equal the SD of x
+  beta <- round(mc$beta*100)
+  expect_equal(beta, round(vr*100))
+  expect_equal(mc$family, 'gaussian')
 })

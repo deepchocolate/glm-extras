@@ -1,8 +1,13 @@
 #' Create a model container from a fitted glm model
 #'
-#' Bla bla
+#' The parameters `cases` and `controls` is relevant when analyzing a binary
+#' phenotype with a linear model (`glm(..., family="gaussian")`), in which
+#' `p*(1-p)` is used as a denominator for `R2.scaleObserved` instead of
+#' `var(y)`. For binomial models these arguments can be ignored.
 #'
 #' @param mod The fitted model object
+#' @param cases N of `y=1`
+#' @param controls N of `y=0`
 R2Wrap <- function (mod, cases=NA_integer_, controls=NA_integer_) {
   determineFamily(mod, cases, controls)
 }
@@ -11,8 +16,8 @@ R2Wrap <- function (mod, cases=NA_integer_, controls=NA_integer_) {
 #'
 #' @slot model The type of model used
 #' @slot validModels The accepted type of models
-#' @slot cases The number of cases in the sample
-#' @slot controls The number of controls in the sample
+#' @slot cases The number of `y=1`
+#' @slot controls The number of `y=0`
 #' @slot N The sample size
 setClass('R2Wrap', representation(
   model = 'glm',
@@ -148,12 +153,17 @@ setMethod('R2.scaleObserved', signature='glm-binomial',
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
           function (object) {
             preds <- predict(object@model)
-            var(preds)/((object@cases * object@controls)/object@N^2)
+            if (is.na(object@cases)) {
+              den <- var(object@model$y)
+            } else {
+              den <- ((object@cases * object@controls)/object@N^2)
+            }
+            var(preds)/den
           })
 
 # Sometimes referred to as Cohen R2 (probably from a textbook)
-setGeneric('likelihoodR2', function (object) standardGeneric('likelihoodR2'))
-setMethod('likelihoodR2', signature = 'glm-gaussian',
+setGeneric('R2.likelihood', function (object) standardGeneric('R2.likelihood'))
+setMethod('R2.likelihood', signature = 'R2Wrap',
           function (object) {
             with(object@model, 1 - deviance/null.deviance)
           })
@@ -163,8 +173,8 @@ setMethod('R2.Nagelkerke', signature='R2Wrap',
             n <- object@N
             with(object@model, (1 - exp((deviance - null.deviance)/n))/(1 - exp(-null.deviance/n)))
           })
-setGeneric('CoxSnellR2', function (object) standardGeneric('CoxSnellR2'))
-setMethod('CoxSnellR2', signature='glm-gaussian',
+setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
+setMethod('R2.CoxSnell', signature='glm-gaussian',
           function (object) {
             n <- object@N
             resp <- all.vars(terms(object@model))[1]
@@ -173,11 +183,4 @@ setMethod('CoxSnellR2', signature='glm-gaussian',
             l1 <- logLik(object@model)[1]
             l0 <- logLik(m0)[1]
             1 - exp((l0-l1)*(2/object@N))
-          })
-
-setGeneric('R2', function (object) standardGeneric('R2'))
-setMethod('R2', signature='glm-gaussian',
-          function (object) {
-            r2s <- c(scaleObserved=scaleObservedR2(object))
-            r2s
           })

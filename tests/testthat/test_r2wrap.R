@@ -25,10 +25,6 @@ set.seed(123)
 dtaSamp <- rbind(subset(dta, yth==1),
                  subset(dta, yth==0)[sample(1:(n-nCas), nCas),])
 
-#ml <- glm(yth~x, data=dtaSamp, family=binomial)
-#library(fmsb)
-#NagelkerkeR2(m)
-
 # Desctools Nagelkerke: This package does not comply with fmsb
 # (1 - exp((D.full - D.base)/n))/(1 - exp(-D.base/n))
 # (1 - exp((rr$dev - rr$null)/n))/(1 - exp(-rr$null/n)) #fmsb
@@ -56,6 +52,13 @@ test_that('Testing linear model on a y=1/0', {
   # This function takes a SD of R2 aswell, but this is not relevant for the calculation of libability scale R2
   r2 <- cc_trf(r2, 0.01, K=prevalence, P=prevalenceSample)$R2l
   expect_equal(R2.scaleLiability(mP, prevalence), r2)
+
+  # Extra test of scaleObserved on the full population
+  # This should give the simulated R2 of about 0.5
+  m <- glm(y~x, data=dta)
+  mP <- R2Wrap(m)
+  r2 <- round(R2.scaleObserved(mP)*100)
+  expect_equal(r2, 50)
 
   #likelihoodR2(mP)
   #nagelkerkeR2(mP)
