@@ -36,7 +36,7 @@
 #' `n` | Number of observations
 #' `pheno_na` | Missingness in phenotype
 #' `exp_na` | Missingness in exposure
-#'
+#' @export
 regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering=F) {
   frm <- paste0(phenotype, '~', exposure)
   if (covariates != '') frm <- paste0(frm, '+', covariates)
