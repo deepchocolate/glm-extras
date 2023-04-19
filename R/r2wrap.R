@@ -1,5 +1,9 @@
 #' Create a model container from a fitted glm model
 #'
+#' if passing a formula to argument `comparison`, R2.scaleLiability will provide
+#' the incremental R2, i.e. the difference between model `mod` and `mod` with
+#' the updated formula.
+#'
 #' The parameters `cases` and `controls` is relevant when analyzing a binary
 #' phenotype with a linear model (`glm(..., family="gaussian")`), in which
 #' `p*(1-p)` is used as a denominator for `R2.scaleObserved` instead of
@@ -7,6 +11,7 @@
 #'
 #' @export
 #' @param mod The fitted model object
+#' @param comparison A formula to compare the model `mod` with, e.g. ~-exposure to remove `exposure` from `mod`
 #' @param cases N of `y=1`
 #' @param controls N of `y=0`
 R2Wrap <- function (mod, comparison=~0, cases=NA_integer_, controls=NA_integer_) {

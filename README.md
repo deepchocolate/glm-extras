@@ -79,5 +79,21 @@ the observed variance calculation in `R2.scaleObserved`.
 mR2 <- R2Wrap(m, cases=#, controls#)
 ```
 
+### Comparing models
+
+If the R2Wrap object is instantiated with a formula, this provides a convinient way
+of getting an incremental R2.
+```
+mR2 <- R2Wrap(m, comparison=~-exposure)
+R2.scaleLiability(m, prevalence=0.1)
+```
+This will compare the model `yth~x` against `yth~1`. This is equivalent to 
+```
+m1 <- glm(yth~x, data=dta, family=binomial)
+m1R <- R2Wrap(m1)
+m2 <- glm(yth~1, data=dta, family=binomial)
+m2R <- R2Wrap(m2)
+R2.scaleLiability(m1R, prevalence=0.1) - R2.scaleLiability(m2R, prevalence=0.1)
+```
 # References
 Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
