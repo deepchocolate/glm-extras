@@ -24,7 +24,7 @@ nCont <- abs(nSample - nCas)
 set.seed(123)
 dtaSamp <- rbind(subset(dta, yth==1),
                  subset(dta, yth==0)[sample(1:(n-nCas), nCas),])
-
+dtaSamp$z <- rnorm(nrow(dtaSamp))
 # Desctools Nagelkerke: This package does not comply with fmsb
 # (1 - exp((D.full - D.base)/n))/(1 - exp(-D.base/n))
 # (1 - exp((rr$dev - rr$null)/n))/(1 - exp(-rr$null/n)) #fmsb
@@ -85,4 +85,8 @@ test_that('Testing binomial model on a y=1/0', {
   # This function takes a SD of R2 aswell, but this is not relevant for the calculation of libability scale point estimate R2
   r2 <- cc_trf(r2, 0.01, K=prevalence, P=prevalenceSample)$R2l
   expect_equal(R2.scaleLiability(mP, prevalence), r2)
+
+  m <- glm(yth~x + z, data=dtaSamp, family=binomial)
+  mP <- R2Wrap(m, comparison=~.-z)
+  expect_equal(round(10*R2.scaleLiability(mP, prevalence)), -1)
 })

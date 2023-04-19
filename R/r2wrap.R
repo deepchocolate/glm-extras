@@ -80,7 +80,8 @@ setMethod('determineFamily', signature('glm', 'formula', 'numeric', 'numeric'),
 setGeneric('hasComparison', function (object) standardGeneric('hasComparison'))
 setMethod('hasComparison', signature('R2Wrap'),
           function (object) {
-            attr(terms(object@comparison), 'intercept') != 0
+            #attr(terms(object@comparison), 'intercept') != 0
+            deparse(object@comparison) != '~0'
           })
 
 #' @export
