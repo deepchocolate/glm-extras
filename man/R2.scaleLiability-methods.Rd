@@ -38,12 +38,27 @@ Liability scale R2 given provided prevalence
 Calculate liability scale R2 given a population prevalence or a set of prevalences
 according to Lee et.al (2012).
 }
+\details{
+The liability scale R2 as described in Lee et al is particularly
+appropriate for ascertained case-control studies in which cases have been sampled
+from the general population based on a binary phenotype \code{y}. The motivation comes
+from genetic epidemiology for studying genetic liability (eg, R2 of a polygenic score) of \code{y}.
+Other pseudo R2's may be more biased in such situations as the sample prevalence differs from the population
+prevalance (eg 1:1 matching). However, to my knowledge it is not known how this study
+how this R2 performs when the phenotype differs from the phenotype cases were ascertained for.
+}
 \examples{
-# Fit a glm model
+# Fit a linear glm model
 m <- glm(y~x, data=pop)
 
-# Create the pgsModel object
-modR2 <- pgsModel(m, cases=100, controls=200)
+# Create the R2Wrap object
+modR2 <- R2Wrap(m, cases=100, controls=200)
+
+# If the fit is instead a binomial model
+m <- glm(y~x, data=pop, family=binomial)
+# the arguments cases and controls can be ignored
+
+modR2 <- R2Wrap(m)
 
 # Calculate the liability scale R2 for a population prevalence
 scaleLiabilityR2(modR2, prevalence=0.1)

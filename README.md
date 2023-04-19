@@ -68,6 +68,9 @@ converts the observed scale R-squared (i.e., variance of probability predictions
 and converts this back to the liability scale. It depends on a given prevalence of a binary 
 phenotype, which is most certainly an uncertain parameter.
 
+To my knowledge, it is appropriate when studying the R2 in models where case status is the
+phenotype is the outcome being modeled. Whether it is appropriate when the outcome phenotype 
+differs from the phenotype defining a case is another question...
 
 If using a linear (gaussian) model to analyse a binary phenotype it is possible
 to pass the number of cases (in the meaning of that `y=1`) and controls to override

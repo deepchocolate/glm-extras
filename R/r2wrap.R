@@ -9,8 +9,8 @@
 #' @param mod The fitted model object
 #' @param cases N of `y=1`
 #' @param controls N of `y=0`
-R2Wrap <- function (mod, cases=NA_integer_, controls=NA_integer_) {
-  determineFamily(mod, cases, controls)
+R2Wrap <- function (mod, comparison=~0, cases=NA_integer_, controls=NA_integer_) {
+  determineFamily(mod, comparison, cases, controls)
 }
 
 #' An S4 class to contain a fitted model object
@@ -27,15 +27,17 @@ setClass('R2Wrap', representation(
   validModels = 'vector',
   cases = 'numeric',
   controls = 'numeric',
+  comparison = 'formula',
   N = 'integer'
   ),
   prototype=list(
     validModels = c('glm-gaussian', 'glm-binomial')
   ))
 setMethod('initialize', signature='R2Wrap',
-          function (.Object, model, family, cases, controls) {
+          function (.Object, model, comparison, family, cases, controls) {
             .Object <- callNextMethod()
             .Object@model = model
+            .Object@comparison = comparison
             .Object@family = family
             .Object@cases <- cases
             .Object@controls <- controls
@@ -56,9 +58,9 @@ setMethod('initialize', signature='glm-binomial',
             .Object
           })
 
-setGeneric('determineFamily', function (object, cases, controls) standardGeneric('determineFamily'))
-setMethod('determineFamily', signature('glm', 'numeric', 'numeric'),
-          function (object, cases, controls) {
+setGeneric('determineFamily', function (object, comparison, cases, controls) standardGeneric('determineFamily'))
+setMethod('determineFamily', signature('glm', 'formula', 'numeric', 'numeric'),
+          function (object, comparison, cases, controls) {
             fam <- family(object)$family
             if (fam == 'binomial') {
               cases <- sum(object$y == 1)
@@ -67,7 +69,13 @@ setMethod('determineFamily', signature('glm', 'numeric', 'numeric'),
             mod <- class(object)[1]
             cl <- paste0(mod, '-', fam)
             if (!fam %in% c('gaussian', 'binomial')) stop('Model of type ', mod, ' with family ', fam, ' is not supported')
-            new(cl, object, fam, cases, controls)
+            new(cl, object, comparison, fam, cases, controls)
+          })
+
+setGeneric('hasComparison', function (object) standardGeneric('hasComparison'))
+setMethod('hasComparison', signature('R2Wrap'),
+          function (object) {
+            attr(terms(object@comparison), 'intercept') != 0
           })
 
 #' @export
@@ -87,12 +95,25 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #' @param R2 R-squared on the observed scale of the model
 #' @param prevalence.sample The sample prevalence of Y=1
 #' @references Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
+#' @details The liability scale R2 as described in Lee et al is particularly
+#' appropriate for ascertained case-control studies in which cases have been sampled
+#' from the general population based on a binary phenotype `y`. The motivation comes
+#' from genetic epidemiology for studying genetic liability (eg, R2 of a polygenic score) of `y`.
+#' Other pseudo R2's may be more biased in such situations as the sample prevalence differs from the population
+#' prevalance (eg 1:1 matching). However, to my knowledge it is not known how this study
+#' how this R2 performs when the phenotype differs from the phenotype cases were ascertained for.
 #' @examples
-#' # Fit a glm model
+#' # Fit a linear glm model
 #' m <- glm(y~x, data=pop)
 #'
-#' # Create the pgsModel object
-#' modR2 <- pgsModel(m, cases=100, controls=200)
+#' # Create the R2Wrap object
+#' modR2 <- R2Wrap(m, cases=100, controls=200)
+#'
+#' # If the fit is instead a binomial model
+#' m <- glm(y~x, data=pop, family=binomial)
+#' # the arguments cases and controls can be ignored
+#'
+#' modR2 <- R2Wrap(m)
 #'
 #' # Calculate the liability scale R2 for a population prevalence
 #' scaleLiabilityR2(modR2, prevalence=0.1)
@@ -141,7 +162,16 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
           function (object, prevalence) {
             R2 <- R2.scaleObserved(object)
             prevalenceSample <- object@cases/object@N
-            R2.scaleLiability(object, prevalence, R2, prevalenceSample)
+            r2 <- R2.scaleLiability(object, prevalence, R2, prevalenceSample)
+            if (hasComparison(object)) {
+              o <- object
+              o@model <- update(o@model, o@comparison)
+              o@comparison <- ~0
+              r22 <- R2.scaleLiability(o, prevalence)
+              r2 <- r2 - r22
+              cat ('Main model:', deparse(object@model$formula), '\nComparison:', deparse(o@model$formula), '\n')
+            }
+            r2
           })
 
 # Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)

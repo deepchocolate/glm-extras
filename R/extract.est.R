@@ -1,5 +1,11 @@
-setGeneric('extract', function (model, coefficient, ci, ci.clustered) standardGeneric('extract'))
-setMethod('extract', signature('matrix', 'character', 'missing', 'missing'),
+#' Extract
+#'
+#' @param model A fitted glm model
+#' @param coefficient A coefficient to extract statistics for
+#' @param ci Whether to extract 95% confidence intervals
+#' @export
+setGeneric('extract.est', function (model, coefficient, ci, ci.clustered) standardGeneric('extract.est'))
+setMethod('extract.est', signature('matrix', 'character', 'missing', 'missing'),
           function (model, coefficient, ci) {
             stats <- model[coefficient,]
             out <- data.frame(
@@ -11,10 +17,10 @@ setMethod('extract', signature('matrix', 'character', 'missing', 'missing'),
             rownames(out) <- NULL
             out
           })
-setMethod('extract', signature('glm', 'character', 'logical', 'missing'),
+setMethod('extract.est', signature('glm', 'character', 'logical', 'missing'),
           function (model, coefficient, ci) {
             stats <- coef(summary(model))
-            out <- extract(stats, coefficient)
+            out <- extract.est(stats, coefficient)
             if (ci) {
               ci <- confint.default(model)[coefficient,]
               out$l95 <- ci[1]

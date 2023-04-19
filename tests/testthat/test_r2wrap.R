@@ -36,11 +36,12 @@ library(r2redux, quietly=T)
 # Compare with DescTools::PseudoR2 and r2redux::cc_trf
 test_that('Testing linear model on a y=1/0', {
   m <- glm(yth~x, data=dtaSamp)
-  mP <- R2Wrap(m, cases=nCas, nCont)
+  mP <- R2Wrap(m, cases=nCas, controls=nCont)
   expect_equal(class(mP)[1], 'glm-gaussian')
   expect_equal(class(mP@model), c('glm', 'lm'))
   expect_equal(mP@cases, nCas)
   expect_equal(mP@controls, nCont)
+  expect_false(hasComparison(mP))
   # Nagelkerke
   r2 <- NagelkerkeR2(m)$R2
   expect_equal(R2.Nagelkerke(mP), r2)
@@ -81,7 +82,7 @@ test_that('Testing binomial model on a y=1/0', {
   # We calculate the observed scale R2 manually as this is not done by r2redux::cc_trf to get liability scale R2
   r2 <- var(predict(m, type='response'))/(prevalenceSample*(1-prevalenceSample))
   expect_equal(R2.scaleObserved(mP), r2)
-  # This function takes a SD of R2 aswell, but this is not relevant for the calculation of libability scale R2
+  # This function takes a SD of R2 aswell, but this is not relevant for the calculation of libability scale point estimate R2
   r2 <- cc_trf(r2, 0.01, K=prevalence, P=prevalenceSample)$R2l
   expect_equal(R2.scaleLiability(mP, prevalence), r2)
 })

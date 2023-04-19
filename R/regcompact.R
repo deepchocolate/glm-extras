@@ -45,9 +45,9 @@ regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering
   dta[, exposure] <- stdVar(dta[, exposure])
   if (binary == F) dta[, phenotype] <- stdVar(dta[, phenotype])
   m <- glm(frm, data=dta, family=fam)
-  cfs <- coef(summary(m))[exposure, ]
   # Calculate incremental R2
   if (binary == F) {
+    cfs <- coef(summary(m))[exposure, ]
     R2 <- cfs[1]^2
     R2N <- NA
   } else {
@@ -57,10 +57,9 @@ regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering
     R2 <- R2.scaleObserved(R2.m1) - R2.scaleObserved(R2.m0)
     R2N <- R2.Nagelkerke(R2.m1) - R2.Nagelkerke(R2.m0)
   }
-  confin <- confint.default(m)[exposure, ] # Use asymptotic std errs
   out <- data.frame(
     phenotype=phenotype,
-    extract(m, exposure, F),
+    extract.est(m, exposure, T),
     l95r='', u95r='', # Cluster-robust CI if applicable
     r2=R2,
     r2Nagelkerke=R2N,
