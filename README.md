@@ -12,7 +12,7 @@ devtools::install_github('https://github.com/deepchocolate/glm-extras')
 
 Otherwise, download one of the release .tar.gz-files and issue:
 ```
-install.packages('glm-extras-0.0.0.tar.gz')
+install.packages('glm-extras-0.0.0.tar.gz', repos=NULL)
 
 ```
 
