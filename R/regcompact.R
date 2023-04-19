@@ -60,9 +60,7 @@ regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering
   confin <- confint.default(m)[exposure, ] # Use asymptotic std errs
   out <- data.frame(
     phenotype=phenotype,
-    exposure=exposure,
-    beta=cfs[1], stderr=cfs[2], z=cfs[3], p=cfs[4], # Beta, SE, Z, P
-    l95=confin[1], u95=confin[2], # Asymptotic CI
+    extract(m, exposure, F),
     l95r='', u95r='', # Cluster-robust CI if applicable
     r2=R2,
     r2Nagelkerke=R2N,

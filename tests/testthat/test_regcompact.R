@@ -27,6 +27,7 @@ test_that('Testing regCompact', {
   # Run a regression on a continuous measure
   m <- glm(y~x, data=dta)
   mc <- regCompact('y', 'x', '', F, dta)
+  expect_equal(colnames(mc), c('phenotype', 'beta', 'stderr', 'z', 'p', 'l95', 'u95', 'l95r', 'u95r', 'r2', 'r2Nagelkerke', 'family', 'n', 'pheno_na', 'exp_na'))
   # beta will equal the SD of x
   beta <- round(mc$beta*100)
   expect_equal(beta, round(vr*100))
