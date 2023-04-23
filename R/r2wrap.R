@@ -80,7 +80,6 @@ setMethod('determineFamily', signature('glm', 'formula', 'numeric', 'numeric'),
 setGeneric('hasComparison', function (object) standardGeneric('hasComparison'))
 setMethod('hasComparison', signature('R2Wrap'),
           function (object) {
-            #attr(terms(object@comparison), 'intercept') != 0
             deparse(object@comparison) != '~0'
           })
 
@@ -171,7 +170,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
             r2 <- R2.scaleLiability(object, prevalence, R2, prevalenceSample)
             if (hasComparison(object)) {
               o <- object
-              o@model <- update(o@model, o@comparison)
+              o@model <- update(object=o@model, formula=o@comparison)
               o@comparison <- ~0
               r22 <- R2.scaleLiability(o, prevalence)
               r2 <- r2 - r22
@@ -186,7 +185,7 @@ setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserv
 setMethod('R2.scaleObserved', signature='glm-binomial',
           function (object) {
             preds <- predict(object@model, type='response')
-            r2 <- var(preds)/((object@cases * object@controls)/object@N^2)
+            r2 <- var(preds)/((object@cases/object@N) * (object@controls/object@N))
             r2
           })
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
@@ -195,7 +194,7 @@ setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
             if (is.na(object@cases)) {
               den <- var(object@model$y)
             } else {
-              den <- ((object@cases * object@controls)/object@N^2)
+              den <- ((object@cases/object@N) * (object@controls/object@N))
             }
             var(preds)/den
           })
