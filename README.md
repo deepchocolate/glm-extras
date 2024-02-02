@@ -81,10 +81,12 @@ mR2 <- R2Wrap(m, cases=#, controls#)
 
 ### Comparing models
 
-If the R2Wrap object is instantiated with a formula, this provides a convinient way
-of getting an incremental R2.
+If the R2Wrap object is instantiated with a formula, this provides a convenient way
+of getting an incremental R2. Note that this formula should adhere to `update.formula()`.
+If the model is `y ~ x + z` the comparison argument for calculating incremental R2 of `x`
+should be `~ . -x` or `. ~ . -x`.
 ```
-mR2 <- R2Wrap(m, comparison=~-exposure)
+mR2 <- R2Wrap(m, comparison=.~.-exposure)
 R2.scaleLiability(m, prevalence=0.1)
 ```
 This will compare the model `yth~x` against `yth~1`. This is equivalent to 

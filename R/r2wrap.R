@@ -11,7 +11,7 @@
 #'
 #' @export
 #' @param mod The fitted model object
-#' @param comparison A formula to compare the model `mod` with, e.g. ~-exposure to remove `exposure` from `mod`
+#' @param comparison A formula to compare the model `mod` with, e.g. `. ~ . -exposure` to remove `exposure` from `mod`
 #' @param cases N of `y=1`
 #' @param controls N of `y=0`
 R2Wrap <- function (mod, comparison=~0, cases=NA_integer_, controls=NA_integer_) {
@@ -174,7 +174,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
               o@comparison <- ~0
               r22 <- R2.scaleLiability(o, prevalence)
               r2 <- r2 - r22
-              cat ('Main model:', deparse(object@model$formula), '\nComparison:', deparse(o@model$formula), '\n')
+              message('Main model: ', deparse(object@model$formula), '\nComparison: ', deparse(o@model$formula), '\n')
             }
             r2
           })
@@ -185,12 +185,14 @@ setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserv
 setMethod('R2.scaleObserved', signature='glm-binomial',
           function (object) {
             preds <- predict(object@model, type='response')
+            if (sum(is.na(preds)) > 0) stop('Data contains missing values (NA)')
             r2 <- var(preds)/((object@cases/object@N) * (object@controls/object@N))
             r2
           })
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
           function (object) {
             preds <- predict(object@model)
+            if (sum(is.na(preds)) > 0) stop('Data contains missing values (NA)')
             if (is.na(object@cases)) {
               den <- var(object@model$y)
             } else {
