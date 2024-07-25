@@ -31,6 +31,6 @@ dtaSamp$z <- rnorm(nrow(dtaSamp))
 # (1 - exp((D.full - D.base)/n))/(1 - exp(-D.base/n))
 # (1 - exp((rr$dev - rr$null)/n))/(1 - exp(-rr$null/n)) #fmsb
 
-library(DescTools, quietly=T)
+#library(DescTools, quietly=T) # Install fail
 library(fmsb, quietly=T)
 library(r2redux, quietly=T)
