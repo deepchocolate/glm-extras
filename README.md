@@ -12,7 +12,7 @@ devtools::install_github('https://github.com/deepchocolate/glm-extras')
 
 Otherwise, download one of the release .tar.gz-files and issue:
 ```
-install.packages('glm-extras-0.0.0.tar.gz', repos=NULL)
+install.packages('glm-extras-0.0.2.tar.gz', repos=NULL)
 
 ```
 
@@ -99,3 +99,9 @@ R2.scaleLiability(m1R, prevalence=0.1) - R2.scaleLiability(m2R, prevalence=0.1)
 ```
 # References
 Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
+
+# Version history
+
+## 0.0.2
+- Added exception when data contains missing values
+- Minor changes to documentation and messages
