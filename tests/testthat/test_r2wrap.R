@@ -1,3 +1,4 @@
+source('helper.R')
 # Compare with DescTools::PseudoR2 and r2redux::cc_trf
 test_that('Testing linear model on a y=1/0', {
   m <- glm(yth~x, data=dtaSamp)

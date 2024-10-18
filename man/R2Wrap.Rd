@@ -9,7 +9,7 @@ R2Wrap(mod, comparison = ~0, cases = NA_integer_, controls = NA_integer_)
 \arguments{
 \item{mod}{The fitted model object}
 
-\item{comparison}{A formula to compare the model \code{mod} with, e.g. ~-exposure to remove \code{exposure} from \code{mod}}
+\item{comparison}{A formula to compare the model \code{mod} with, e.g. \code{. ~ . -exposure} to remove \code{exposure} from \code{mod}}
 
 \item{cases}{N of \code{y=1}}
 
