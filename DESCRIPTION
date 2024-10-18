@@ -14,7 +14,7 @@ Suggests:
   DescTools,
   fmsb,
   r2redux,
-  sandwhich,
+  sandwich,
   testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: methods
