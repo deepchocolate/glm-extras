@@ -37,6 +37,7 @@
 #' `pheno_na` | Missingness in phenotype
 #' `exp_na` | Missingness in exposure
 #' @export
+#' @importFrom stats as.formula as.formula coef confint.default dnorm family formula glm logLik nobs predict qnorm qt sd terms update var
 regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering=F) {
   frm <- paste0(phenotype, '~', exposure)
   if (covariates != '') frm <- paste0(frm, '+', covariates)

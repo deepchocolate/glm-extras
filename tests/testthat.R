@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(pgs)
+library(glmExtras)
 
-test_check("pgs")
+test_check("glmExtras")

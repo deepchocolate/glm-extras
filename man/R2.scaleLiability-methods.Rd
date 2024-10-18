@@ -14,13 +14,13 @@ R2.scaleLiability(object, prevalence, R2, prevalence.sample)
 
 \S4method{R2.scaleLiability}{R2Wrap,numeric,numeric,numeric}(object, prevalence, R2, prevalence.sample)
 
-\S4method{R2.scaleLiability}{`glm-gaussian`,numeric,missing,missing}(object, prevalence, R2, prevalence.sample)
+\S4method{R2.scaleLiability}{glm-gaussian,numeric,missing,missing}(object, prevalence, R2, prevalence.sample)
 
-\S4method{R2.scaleLiability}{`glm-gaussian`,vector,missing,missing}(object, prevalence, R2, prevalence.sample)
+\S4method{R2.scaleLiability}{glm-gaussian,vector,missing,missing}(object, prevalence, R2, prevalence.sample)
 
-\S4method{R2.scaleLiability}{`glm-binomial`,vector,missing,missing}(object, prevalence)
+\S4method{R2.scaleLiability}{glm-binomial,vector,missing,missing}(object, prevalence)
 
-\S4method{R2.scaleLiability}{`glm-binomial`,numeric,missing,missing}(object, prevalence)
+\S4method{R2.scaleLiability}{glm-binomial,numeric,missing,missing}(object, prevalence)
 }
 \arguments{
 \item{object}{A R2Wrap object}
@@ -48,8 +48,9 @@ prevalance (eg 1:1 matching). However, to my knowledge it is not known how this 
 how this R2 performs when the phenotype differs from the phenotype cases were ascertained for.
 }
 \examples{
+\dontrun{
 # Fit a linear glm model
-m <- glm(y~x, data=pop)
+m <- glm(y~x, data=)
 
 # Create the R2Wrap object
 modR2 <- R2Wrap(m, cases=100, controls=200)
@@ -65,6 +66,7 @@ scaleLiabilityR2(modR2, prevalence=0.1)
 
 # ... or for a sequence of prevalences
 scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
+}
 }
 \references{
 Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614

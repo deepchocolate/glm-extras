@@ -38,6 +38,7 @@ setClass('R2Wrap', representation(
   prototype=list(
     validModels = c('glm-gaussian', 'glm-binomial')
   ))
+#' @importFrom methods callNextMethod new
 setMethod('initialize', signature='R2Wrap',
           function (.Object, model, comparison, family, cases, controls) {
             .Object <- callNextMethod()
@@ -108,8 +109,9 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #' prevalance (eg 1:1 matching). However, to my knowledge it is not known how this study
 #' how this R2 performs when the phenotype differs from the phenotype cases were ascertained for.
 #' @examples
+#' \dontrun{
 #' # Fit a linear glm model
-#' m <- glm(y~x, data=pop)
+#' m <- glm(y~x, data=)
 #'
 #' # Create the R2Wrap object
 #' modR2 <- R2Wrap(m, cases=100, controls=200)
@@ -125,6 +127,7 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #'
 #' # ... or for a sequence of prevalences
 #' scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
+#' }
 #' @return Liability scale R2 given provided prevalence
 
 setMethod('R2.scaleLiability', signature('R2Wrap', 'numeric', 'numeric', 'numeric'),
