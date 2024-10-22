@@ -22,9 +22,11 @@ R2Wrap <- function (mod, comparison=~0, cases=NA_integer_, controls=NA_integer_)
 #'
 #' @export
 #' @slot model The type of model used
+#' @slot family The family link function.
 #' @slot validModels The accepted type of models
 #' @slot cases The number of `y=1`
 #' @slot controls The number of `y=0`
+#' @slot comparison A formula to compare models with.
 #' @slot N The sample size
 setClass('R2Wrap', representation(
   model = 'glm',
