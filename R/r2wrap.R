@@ -184,9 +184,17 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
             r2
           })
 
-# Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
+#' Observed scale R2
+#'
+#' Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
+#'
 #' @export
+#' @docType methods
+#' @rdname R2.scaleObserved-methods
 setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserved'))
+
+#' @rdname R2.scaleObserved-methods
+#' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature='glm-binomial',
           function (object) {
             preds <- predict(object@model, type='response')
@@ -194,6 +202,9 @@ setMethod('R2.scaleObserved', signature='glm-binomial',
             r2 <- var(preds)/((object@cases/object@N) * (object@controls/object@N))
             r2
           })
+
+#' @rdname R2.scaleObserved-methods
+#' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
           function (object) {
             preds <- predict(object@model)
