@@ -13,6 +13,9 @@ R2.scaleObserved(object)
 
 \S4method{R2.scaleObserved}{glm-gaussian}(object)
 }
+\arguments{
+\item{object}{A R2Wrap object}
+}
 \description{
 Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
 }

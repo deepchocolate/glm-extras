@@ -188,6 +188,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
 #'
 #' Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
 #'
+#' @param object A R2Wrap object
 #' @export
 #' @docType methods
 #' @rdname R2.scaleObserved-methods
@@ -217,9 +218,16 @@ setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
             var(preds)/den
           })
 
-# Sometimes referred to as Cohen R2 (probably from a textbook)
+#' @rdname R2.likelihood-methods
+#' @docType methods
 #' @export
 setGeneric('R2.likelihood', function (object) standardGeneric('R2.likelihood'))
+
+#' Sometimes referred to as Cohen R2 (probably from a textbook)
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.likelihood-methods
+#' @aliases R2.likelihood
 setMethod('R2.likelihood', signature = 'R2Wrap',
           function (object) {
             with(object@model, 1 - deviance/null.deviance)
@@ -241,8 +249,16 @@ setMethod('R2.Nagelkerke', signature='R2Wrap',
             with(object@model, (1 - exp((deviance - null.deviance)/n))/(1 - exp(-null.deviance/n)))
           })
 
+#' @rdname R2.CoxSnell-methods
+#' @docType methods
 #' @export
 setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
+
+#' Cox-Snell R2
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.CoxSnell-methods
+#' @aliases R2.CoxSnell
 setMethod('R2.CoxSnell', signature='glm-gaussian',
           function (object) {
             n <- object@N
