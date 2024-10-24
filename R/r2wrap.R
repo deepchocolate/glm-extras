@@ -194,6 +194,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
 #' @rdname R2.scaleObserved-methods
 setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserved'))
 
+#' @param object A R2Wrap object
 #' @rdname R2.scaleObserved-methods
 #' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature='glm-binomial',
@@ -204,6 +205,7 @@ setMethod('R2.scaleObserved', signature='glm-binomial',
             r2
           })
 
+#' @param object A R2Wrap object
 #' @rdname R2.scaleObserved-methods
 #' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
@@ -249,14 +251,15 @@ setMethod('R2.Nagelkerke', signature='R2Wrap',
             with(object@model, (1 - exp((deviance - null.deviance)/n))/(1 - exp(-null.deviance/n)))
           })
 
+
+#' Cox-Snell R2
+#'
+#' @param object A R2Wrap object
 #' @rdname R2.CoxSnell-methods
 #' @docType methods
 #' @export
 setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
 
-#' Cox-Snell R2
-#'
-#' @param object A R2Wrap object
 #' @rdname R2.CoxSnell-methods
 #' @aliases R2.CoxSnell
 setMethod('R2.CoxSnell', signature='glm-gaussian',
