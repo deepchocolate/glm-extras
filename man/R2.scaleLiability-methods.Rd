@@ -50,7 +50,7 @@ how this R2 performs when the phenotype differs from the phenotype cases were as
 \examples{
 \dontrun{
 # Fit a linear glm model
-m <- glm(y~x, data=)
+m <- glm(y~x, data=data)
 
 # Create the R2Wrap object
 modR2 <- R2Wrap(m, cases=100, controls=200)

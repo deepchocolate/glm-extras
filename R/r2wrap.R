@@ -113,7 +113,7 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #' @examples
 #' \dontrun{
 #' # Fit a linear glm model
-#' m <- glm(y~x, data=)
+#' m <- glm(y~x, data=data)
 #'
 #' # Create the R2Wrap object
 #' modR2 <- R2Wrap(m, cases=100, controls=200)
@@ -225,6 +225,10 @@ setMethod('R2.likelihood', signature = 'R2Wrap',
             with(object@model, 1 - deviance/null.deviance)
           })
 
+#' Nagelkerke's R2
+#'
+#' @rdname R2.Nagelkerke-methods
+#' @docType methods
 #' @export
 setGeneric('R2.Nagelkerke', function (object) standardGeneric('R2.Nagelkerke'))
 setMethod('R2.Nagelkerke', signature='R2Wrap',
