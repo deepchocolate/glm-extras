@@ -3,12 +3,12 @@
 \docType{methods}
 \name{R2.CoxSnell}
 \alias{R2.CoxSnell}
-\alias{R2.CoxSnell,glm-gaussian-method}
+\alias{R2.CoxSnell,R2Wrap-method}
 \title{Cox-Snell R2}
 \usage{
 R2.CoxSnell(object)
 
-\S4method{R2.CoxSnell}{glm-gaussian}(object)
+\S4method{R2.CoxSnell}{R2Wrap}(object)
 }
 \arguments{
 \item{object}{A R2Wrap object}

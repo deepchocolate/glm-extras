@@ -262,7 +262,7 @@ setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
 
 #' @rdname R2.CoxSnell-methods
 #' @aliases R2.CoxSnell
-setMethod('R2.CoxSnell', signature='glm-gaussian',
+setMethod('R2.CoxSnell', signature='R2Wrap',
           function (object) {
             n <- object@N
             resp <- all.vars(terms(object@model))[1]
