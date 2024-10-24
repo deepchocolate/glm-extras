@@ -12,11 +12,15 @@ An S4 class to contain a fitted model object
 \describe{
 \item{\code{model}}{The type of model used}
 
+\item{\code{family}}{The family link function.}
+
 \item{\code{validModels}}{The accepted type of models}
 
 \item{\code{cases}}{The number of \code{y=1}}
 
 \item{\code{controls}}{The number of \code{y=0}}
+
+\item{\code{comparison}}{A formula to compare models with.}
 
 \item{\code{N}}{The sample size}
 }}

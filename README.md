@@ -1,5 +1,9 @@
 # GLM Extras
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/deepchocolate/glm-extras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/deepchocolate/glm-extras/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 Just some convenience functions for running regressions with R's `glm` and
 calculating R-squared.
 
@@ -12,7 +16,7 @@ devtools::install_github('https://github.com/deepchocolate/glm-extras')
 
 Otherwise, download one of the release .tar.gz-files and issue:
 ```
-install.packages('glm-extras-0.0.2.tar.gz', repos=NULL)
+install.packages('glm-extras-0.0.3.tar.gz', repos=NULL)
 
 ```
 
@@ -101,6 +105,8 @@ R2.scaleLiability(m1R, prevalence=0.1) - R2.scaleLiability(m2R, prevalence=0.1)
 Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
 
 # Version history
+## 0.0.3
+- Added missing dependency on R-package
 
 ## 0.0.2
 - Added exception when data contains missing values

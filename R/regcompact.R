@@ -15,7 +15,6 @@
 #' @param covariates Variables to adjust the exposure for, eg "COV1 + COV2"
 #' @param binary Pass TRUE to run a binomial/logistic model.
 #' @param dta A data.frame containing all necessary variables
-#' @param r2s A vector of R2 measures to calculate in addition to the default.
 #' @param clustering Pass the name of the clustering variable in dta to add cluster robust confidence intervals.
 #' @returns `regCompact` returns a data.frame with the following statistics.
 #'
@@ -37,6 +36,7 @@
 #' `pheno_na` | Missingness in phenotype
 #' `exp_na` | Missingness in exposure
 #' @export
+#' @importFrom stats as.formula as.formula coef confint.default dnorm family formula glm logLik nobs predict qnorm qt sd terms update var
 regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering=F) {
   frm <- paste0(phenotype, '~', exposure)
   if (covariates != '') frm <- paste0(frm, '+', covariates)
@@ -69,8 +69,7 @@ regCompact <- function (phenotype, exposure, covariates, binary, dta, clustering
     exp_na=sum(is.na(dta[, exposure])), # NAs in exposure
     stringsAsFactors = F)
   if (is.character(clustering)) {
-    require(sandwhich)
-    vcm <- vcovCL(m, cluster=dta[, clustering])
+    vcm <- sandwich::vcovCL(m, cluster=dta[, clustering])
     robErr <- qt(0.975, df=m$df.residual)*sqrt(vcm[exposure, exposure])
     out$u95r <- coef(m)[exposure] + robErr
     out$l95r <- coef(m)[exposure] - robErr

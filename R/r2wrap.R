@@ -22,9 +22,11 @@ R2Wrap <- function (mod, comparison=~0, cases=NA_integer_, controls=NA_integer_)
 #'
 #' @export
 #' @slot model The type of model used
+#' @slot family The family link function.
 #' @slot validModels The accepted type of models
 #' @slot cases The number of `y=1`
 #' @slot controls The number of `y=0`
+#' @slot comparison A formula to compare models with.
 #' @slot N The sample size
 setClass('R2Wrap', representation(
   model = 'glm',
@@ -38,6 +40,7 @@ setClass('R2Wrap', representation(
   prototype=list(
     validModels = c('glm-gaussian', 'glm-binomial')
   ))
+#' @importFrom methods callNextMethod new
 setMethod('initialize', signature='R2Wrap',
           function (.Object, model, comparison, family, cases, controls) {
             .Object <- callNextMethod()
@@ -108,8 +111,9 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #' prevalance (eg 1:1 matching). However, to my knowledge it is not known how this study
 #' how this R2 performs when the phenotype differs from the phenotype cases were ascertained for.
 #' @examples
+#' \dontrun{
 #' # Fit a linear glm model
-#' m <- glm(y~x, data=pop)
+#' m <- glm(y~x, data=data)
 #'
 #' # Create the R2Wrap object
 #' modR2 <- R2Wrap(m, cases=100, controls=200)
@@ -125,6 +129,7 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #'
 #' # ... or for a sequence of prevalences
 #' scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
+#' }
 #' @return Liability scale R2 given provided prevalence
 
 setMethod('R2.scaleLiability', signature('R2Wrap', 'numeric', 'numeric', 'numeric'),
@@ -179,9 +184,19 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
             r2
           })
 
-# Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
+#' Observed scale R2
+#'
+#' Variance in predictions/Variance in Y Var(Ŷ)/Var(Y)
+#'
+#' @param object A R2Wrap object
 #' @export
+#' @docType methods
+#' @rdname R2.scaleObserved-methods
 setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserved'))
+
+#' @param object A R2Wrap object
+#' @rdname R2.scaleObserved-methods
+#' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature='glm-binomial',
           function (object) {
             preds <- predict(object@model, type='response')
@@ -189,6 +204,10 @@ setMethod('R2.scaleObserved', signature='glm-binomial',
             r2 <- var(preds)/((object@cases/object@N) * (object@controls/object@N))
             r2
           })
+
+#' @param object A R2Wrap object
+#' @rdname R2.scaleObserved-methods
+#' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
           function (object) {
             preds <- predict(object@model)
@@ -201,25 +220,49 @@ setMethod('R2.scaleObserved', signature=c('glm-gaussian'),
             var(preds)/den
           })
 
-# Sometimes referred to as Cohen R2 (probably from a textbook)
+#' @rdname R2.likelihood-methods
+#' @docType methods
 #' @export
 setGeneric('R2.likelihood', function (object) standardGeneric('R2.likelihood'))
+
+#' Sometimes referred to as Cohen R2 (probably from a textbook)
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.likelihood-methods
+#' @aliases R2.likelihood
 setMethod('R2.likelihood', signature = 'R2Wrap',
           function (object) {
             with(object@model, 1 - deviance/null.deviance)
           })
 
+#' @rdname R2.Nagelkerke-methods
+#' @docType methods
 #' @export
 setGeneric('R2.Nagelkerke', function (object) standardGeneric('R2.Nagelkerke'))
+
+#' Nagelkerke's R2
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.Nagelkerke-methods
+#' @aliases R2.Nagelkerke
 setMethod('R2.Nagelkerke', signature='R2Wrap',
           function (object) {
             n <- object@N
             with(object@model, (1 - exp((deviance - null.deviance)/n))/(1 - exp(-null.deviance/n)))
           })
 
+
+#' Cox-Snell R2
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.CoxSnell-methods
+#' @docType methods
 #' @export
 setGeneric('R2.CoxSnell', function (object) standardGeneric('R2.CoxSnell'))
-setMethod('R2.CoxSnell', signature='glm-gaussian',
+
+#' @rdname R2.CoxSnell-methods
+#' @aliases R2.CoxSnell
+setMethod('R2.CoxSnell', signature='R2Wrap',
           function (object) {
             n <- object@N
             resp <- all.vars(terms(object@model))[1]

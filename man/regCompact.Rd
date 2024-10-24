@@ -18,8 +18,6 @@ regCompact(phenotype, exposure, covariates, binary, dta, clustering = F)
 \item{dta}{A data.frame containing all necessary variables}
 
 \item{clustering}{Pass the name of the clustering variable in dta to add cluster robust confidence intervals.}
-
-\item{r2s}{A vector of R2 measures to calculate in addition to the default.}
 }
 \value{
 \code{regCompact} returns a data.frame with the following statistics.\tabular{ll}{
