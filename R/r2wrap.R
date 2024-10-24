@@ -225,12 +225,16 @@ setMethod('R2.likelihood', signature = 'R2Wrap',
             with(object@model, 1 - deviance/null.deviance)
           })
 
-#' Nagelkerke's R2
-#'
 #' @rdname R2.Nagelkerke-methods
 #' @docType methods
 #' @export
 setGeneric('R2.Nagelkerke', function (object) standardGeneric('R2.Nagelkerke'))
+
+#' Nagelkerke's R2
+#'
+#' @param object A R2Wrap object
+#' @rdname R2.Nagelkerke-methods
+#' @aliases R2.Nagelkerke
 setMethod('R2.Nagelkerke', signature='R2Wrap',
           function (object) {
             n <- object@N
