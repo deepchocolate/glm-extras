@@ -106,7 +106,8 @@ Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coeffic
 
 # Version history
 ## 0.0.3
-- Added missing dependency on R-package
+- Removed dependency on R-package `r2redux`
+- Fixed missing/misspecified documentation
 
 ## 0.0.2
 - Added exception when data contains missing values
