@@ -3,7 +3,6 @@
 export(R2.CoxSnell)
 export(R2.Nagelkerke)
 export(R2.likelihood)
-export(R2.scaleLiability)
 export(R2.scaleObserved)
 export(R2Wrap)
 export(extract.est)

@@ -86,11 +86,6 @@ setMethod('hasComparison', signature('R2Wrap'),
             deparse(object@comparison) != '~0'
           })
 
-#' @export
-#' @docType methods
-#' @rdname R2.scaleLiability-methods
-setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sample) standardGeneric('R2.scaleLiability'))
-
 #' Liability scale R2 of a glm model
 #'
 #' Calculate liability scale R2 given a population prevalence or a set of prevalences
@@ -98,6 +93,7 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #'
 #' @rdname R2.scaleLiability-methods
 #' @aliases R2.scaleLiability
+#' @docType methods
 #' @param object A R2Wrap object
 #' @param prevalence Population prevalence or a vector of prevalence
 #' @param R2 R-squared on the observed scale of the model
@@ -131,7 +127,9 @@ setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sam
 #' scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
 #' }
 #' @return Liability scale R2 given provided prevalence
-
+setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sample) standardGeneric('R2.scaleLiability'))
+#' @rdname R2.scaleLiability-methods
+#' @aliases R2.scaleLiability
 setMethod('R2.scaleLiability', signature('R2Wrap', 'numeric', 'numeric', 'numeric'),
           function (object, prevalence, R2, prevalence.sample) {
             threshold <- -qnorm(prevalence, 0, 1)
