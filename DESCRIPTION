@@ -1,6 +1,6 @@
 Package: glmExtras
 Title: GLM extras
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person("Andreas", "Jangmo", , "andreas.jangmo@fhi.no", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6928-4791"))
