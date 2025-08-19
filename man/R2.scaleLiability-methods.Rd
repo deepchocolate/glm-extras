@@ -5,8 +5,6 @@
 \alias{R2.scaleLiability}
 \alias{R2.scaleLiability,R2Wrap,numeric,numeric,numeric-method}
 \alias{R2.scaleLiability,glm-gaussian,numeric,missing,missing-method}
-\alias{R2.scaleLiability,glm-gaussian,vector,missing,missing-method}
-\alias{R2.scaleLiability,glm-binomial,vector,missing,missing-method}
 \alias{R2.scaleLiability,glm-binomial,numeric,missing,missing-method}
 \title{Liability scale R2 of a glm model}
 \usage{
@@ -15,10 +13,6 @@ R2.scaleLiability(object, prevalence, R2, prevalence.sample)
 \S4method{R2.scaleLiability}{R2Wrap,numeric,numeric,numeric}(object, prevalence, R2, prevalence.sample)
 
 \S4method{R2.scaleLiability}{glm-gaussian,numeric,missing,missing}(object, prevalence, R2, prevalence.sample)
-
-\S4method{R2.scaleLiability}{glm-gaussian,vector,missing,missing}(object, prevalence, R2, prevalence.sample)
-
-\S4method{R2.scaleLiability}{glm-binomial,vector,missing,missing}(object, prevalence)
 
 \S4method{R2.scaleLiability}{glm-binomial,numeric,missing,missing}(object, prevalence)
 }

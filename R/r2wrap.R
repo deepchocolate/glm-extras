@@ -152,20 +152,6 @@ setMethod('R2.scaleLiability', signature=c('glm-gaussian', 'numeric', 'missing',
 
 #' @rdname R2.scaleLiability-methods
 #' @aliases R2.scaleLiability
-setMethod('R2.scaleLiability', signature=c('glm-gaussian', 'vector', 'missing', 'missing'),
-          function (object, prevalence, R2, prevalence.sample) {
-            sapply(prevalences, FUN=function (x) R2.scaleLiability(mP, x))
-          })
-
-#' @rdname R2.scaleLiability-methods
-#' @aliases R2.scaleLiability
-setMethod('R2.scaleLiability', signature=c('glm-binomial', 'vector', 'missing', 'missing'),
-          function (object, prevalence) {
-            sapply(prevalences, FUN=function (x) R2.scaleLiability(mP, x))
-          })
-
-#' @rdname R2.scaleLiability-methods
-#' @aliases R2.scaleLiability
 setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing', 'missing'),
           function (object, prevalence) {
             R2 <- R2.scaleObserved(object)
