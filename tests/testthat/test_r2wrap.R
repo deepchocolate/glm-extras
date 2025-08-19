@@ -77,3 +77,8 @@ test_that('Testing binomial model on a y=1/0', {
   mP <- R2Wrap(m)
   expect_error(R2.scaleLiability(mP, prevalence))
 })
+
+test_that('Testing errors', {
+  m <- glm(yth~x, data=dtaSamp, family=poisson)
+  expect_error(R2Wrap(m))
+})
