@@ -10,12 +10,12 @@ calculating R-squared.
 ## Installation
 
 If the R-package `devtools` is installed, this package can be installed by issuing:
-```
+```R
 devtools::install_github('https://github.com/deepchocolate/glm-extras')
 ```
 
 Otherwise, download one of the release .tar.gz-files and issue:
-```
+```R
 install.packages('glm-extras-0.0.3.tar.gz', repos=NULL)
 
 ```
@@ -59,7 +59,7 @@ for (pheno in names(phenotypes)) {
 
 This functionality is useful for calculating various R-squared statistics.
 
-```
+```R
 m <- glm(yth~x, data=dta, family=binomial)
 mR2 <- R2Wrap(m)
 R2.Nagelkerke(mR2)
@@ -79,7 +79,7 @@ differs from the phenotype defining a case is another question...
 If using a linear (gaussian) model to analyse a binary phenotype it is possible
 to pass the number of cases (in the meaning of that `y=1`) and controls to override
 the observed variance calculation in `R2.scaleObserved`.
-```
+```R
 mR2 <- R2Wrap(m, cases=#, controls#)
 ```
 
@@ -89,12 +89,12 @@ If the R2Wrap object is instantiated with a formula, this provides a convenient 
 of getting an incremental R2. Note that this formula should adhere to `update.formula()`.
 If the model is `y ~ x + z` the comparison argument for calculating incremental R2 of `x`
 should be `~ . -x` or `. ~ . -x`.
-```
+```R
 mR2 <- R2Wrap(m, comparison=.~.-exposure)
 R2.scaleLiability(m, prevalence=0.1)
 ```
 This will compare the model `yth~x` against `yth~1`. This is equivalent to 
-```
+```R
 m1 <- glm(yth~x, data=dta, family=binomial)
 m1R <- R2Wrap(m1)
 m2 <- glm(yth~1, data=dta, family=binomial)
