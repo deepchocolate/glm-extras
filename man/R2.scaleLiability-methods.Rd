@@ -12,7 +12,7 @@ R2.scaleLiability(object, prevalence, R2, prevalence.sample)
 
 \S4method{R2.scaleLiability}{R2Wrap,numeric,numeric,numeric}(object, prevalence, R2, prevalence.sample)
 
-\S4method{R2.scaleLiability}{glm-gaussian,numeric,missing,missing}(object, prevalence, R2, prevalence.sample)
+\S4method{R2.scaleLiability}{glm-gaussian,numeric,missing,missing}(object, prevalence)
 
 \S4method{R2.scaleLiability}{glm-binomial,numeric,missing,missing}(object, prevalence)
 }

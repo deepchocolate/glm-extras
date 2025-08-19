@@ -144,7 +144,7 @@ setMethod('R2.scaleLiability', signature('R2Wrap', 'numeric', 'numeric', 'numeri
 #' @rdname R2.scaleLiability-methods
 #' @aliases R2.scaleLiability
 setMethod('R2.scaleLiability', signature=c('glm-gaussian', 'numeric', 'missing', 'missing'),
-          function (object, prevalence, R2, prevalence.sample) {
+          function (object, prevalence) {
             R2 <- R2.scaleObserved(object)
             prevalenceSample <- object@cases/object@N
             R2.scaleLiability(object, prevalence, R2, prevalenceSample)
