@@ -5,16 +5,17 @@
 \alias{R2.scaleLiability}
 \alias{R2.scaleLiability,R2Wrap,numeric,numeric,numeric-method}
 \alias{R2.scaleLiability,glm-gaussian,numeric,missing,missing-method}
+\alias{R2.scaleLiability,numeric}
 \alias{R2.scaleLiability,glm-binomial,numeric,missing,missing-method}
 \title{Liability scale R2 of a glm model}
 \usage{
-R2.scaleLiability(object, prevalence, R2, prevalence.sample)
+R2.scaleLiability(object, prevalence, R2, prevalenceSample)
 
-\S4method{R2.scaleLiability}{R2Wrap,numeric,numeric,numeric}(object, prevalence, R2, prevalence.sample)
+\S4method{R2.scaleLiability}{R2Wrap,numeric,numeric,numeric}(object, prevalence, R2, prevalenceSample)
 
-\S4method{R2.scaleLiability}{glm-gaussian,numeric,missing,missing}(object, prevalence)
+R2.scaleLiability(object,prevalence, R2, prevalenceSample)
 
-\S4method{R2.scaleLiability}{glm-binomial,numeric,missing,missing}(object, prevalence)
+R2.scaleLiability(object,prevalence,R2,prevalenceSample)
 }
 \arguments{
 \item{object}{A R2Wrap object}
@@ -23,7 +24,7 @@ R2.scaleLiability(object, prevalence, R2, prevalence.sample)
 
 \item{R2}{R-squared on the observed scale of the model}
 
-\item{prevalence.sample}{The sample prevalence of Y=1}
+\item{prevalenceSample}{The sample prevalence of Y=1}
 }
 \value{
 Liability scale R2 given provided prevalence
@@ -56,10 +57,10 @@ m <- glm(y~x, data=pop, family=binomial)
 modR2 <- R2Wrap(m)
 
 # Calculate the liability scale R2 for a population prevalence
-scaleLiabilityR2(modR2, prevalence=0.1)
+R2.scaleLiability(modR2, prevalence=0.1)
 
 # ... or for a sequence of prevalences
-scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
+R2.scaleLiability(modR2, prevalence=seq(0.01, 0.2, 0.01))
 }
 }
 \references{

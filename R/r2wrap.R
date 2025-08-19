@@ -92,12 +92,12 @@ setMethod('hasComparison', signature('R2Wrap'),
 #' according to Lee et.al (2012).
 #'
 #' @rdname R2.scaleLiability-methods
-#' @aliases R2.scaleLiability
+#' @name R2.scaleLiability
 #' @docType methods
 #' @param object A R2Wrap object
 #' @param prevalence Population prevalence or a vector of prevalence
 #' @param R2 R-squared on the observed scale of the model
-#' @param prevalence.sample The sample prevalence of Y=1
+#' @param prevalenceSample The sample prevalence of Y=1
 #' @references Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
 #' @details The liability scale R2 as described in Lee et al is particularly
 #' appropriate for ascertained case-control studies in which cases have been sampled
@@ -121,29 +121,32 @@ setMethod('hasComparison', signature('R2Wrap'),
 #' modR2 <- R2Wrap(m)
 #'
 #' # Calculate the liability scale R2 for a population prevalence
-#' scaleLiabilityR2(modR2, prevalence=0.1)
+#' R2.scaleLiability(modR2, prevalence=0.1)
 #'
 #' # ... or for a sequence of prevalences
-#' scaleLiabilityR2(modR2, prevalence=seq(0.01, 0.2, 0.01))
+#' R2.scaleLiability(modR2, prevalence=seq(0.01, 0.2, 0.01))
 #' }
 #' @return Liability scale R2 given provided prevalence
-setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalence.sample) standardGeneric('R2.scaleLiability'))
+setGeneric('R2.scaleLiability', function (object, prevalence, R2, prevalenceSample) standardGeneric('R2.scaleLiability'))
+
 #' @rdname R2.scaleLiability-methods
 #' @aliases R2.scaleLiability
 setMethod('R2.scaleLiability', signature('R2Wrap', 'numeric', 'numeric', 'numeric'),
-          function (object, prevalence, R2, prevalence.sample) {
+          function (object, prevalence, R2, prevalenceSample) {
             threshold <- -qnorm(prevalence, 0, 1)
             zDens <- dnorm(threshold)
             liabCase <- zDens/prevalence
             liabControl <- -liabCase * prevalence/(1-prevalence)
-            theta <- liabCase * (prevalence.sample - prevalence)/(1 - prevalence) * (liabCase*(prevalence.sample - prevalence)/(1 - prevalence) - threshold)
-            bigC <- prevalence*(1-prevalence)/zDens^2 * prevalence*(1 - prevalence)/(prevalence.sample*(1 - prevalence.sample))
+            theta <- liabCase * (prevalenceSample - prevalence)/(1 - prevalence) * (liabCase*(prevalenceSample - prevalence)/(1 - prevalence) - threshold)
+            bigC <- prevalence*(1-prevalence)/zDens^2 * prevalence*(1 - prevalence)/(prevalenceSample*(1 - prevalenceSample))
             R2liab <- R2 * bigC/(1 + R2 * theta * bigC)
             R2liab
           })
+
 #' @rdname R2.scaleLiability-methods
-#' @aliases R2.scaleLiability
-setMethod('R2.scaleLiability', signature=c('glm-gaussian', 'numeric', 'missing', 'missing'),
+#' @usage R2.scaleLiability(object,prevalence, R2, prevalenceSample)
+#' @aliases R2.scaleLiability,numeric
+setMethod('R2.scaleLiability', signature=c(object='glm-gaussian', prevalence='numeric', R2='missing', prevalenceSample='missing'),
           function (object, prevalence) {
             R2 <- R2.scaleObserved(object)
             prevalenceSample <- object@cases/object@N
@@ -151,6 +154,7 @@ setMethod('R2.scaleLiability', signature=c('glm-gaussian', 'numeric', 'missing',
           })
 
 #' @rdname R2.scaleLiability-methods
+#' @usage R2.scaleLiability(object,prevalence,R2,prevalenceSample)
 #' @aliases R2.scaleLiability
 setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing', 'missing'),
           function (object, prevalence) {
@@ -179,6 +183,7 @@ setMethod('R2.scaleLiability', signature=c('glm-binomial', 'numeric', 'missing',
 setGeneric('R2.scaleObserved', function (object) standardGeneric('R2.scaleObserved'))
 
 #' @param object A R2Wrap object
+#' @usage R2.scaleObserved(object)
 #' @rdname R2.scaleObserved-methods
 #' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature='glm-binomial',
@@ -190,6 +195,7 @@ setMethod('R2.scaleObserved', signature='glm-binomial',
           })
 
 #' @param object A R2Wrap object
+#' @usage R2.scaleObserved(object)
 #' @rdname R2.scaleObserved-methods
 #' @aliases R2.scaleObserved
 setMethod('R2.scaleObserved', signature=c('glm-gaussian'),

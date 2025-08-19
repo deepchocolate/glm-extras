@@ -9,9 +9,9 @@
 \usage{
 R2.scaleObserved(object)
 
-\S4method{R2.scaleObserved}{glm-binomial}(object)
+R2.scaleObserved(object)
 
-\S4method{R2.scaleObserved}{glm-gaussian}(object)
+R2.scaleObserved(object)
 }
 \arguments{
 \item{object}{A R2Wrap object}
