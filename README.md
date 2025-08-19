@@ -105,6 +105,12 @@ R2.scaleLiability(m1R, prevalence=0.1) - R2.scaleLiability(m2R, prevalence=0.1)
 Lee, S.H., Goddard, M.e., Wray, N.R. and Visscher, P.M. (2012), A Better Coefficient of Determination for Genetic Profile Analysis. Genet. Epidemiol., 36: 214-224. https://doi.org/10.1002/gepi.21614
 
 # Version history
+## 0.0.4
+- Documentation updates
+- Fixed problems in roxygen documentation
+- Added unittests
+- Removed redundant methods
+
 ## 0.0.3
 - Removed dependency on R-package `r2redux`
 - Fixed missing/misspecified documentation
