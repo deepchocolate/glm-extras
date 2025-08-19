@@ -32,5 +32,5 @@ dtaSamp$z <- rnorm(nrow(dtaSamp))
 # (1 - exp((rr$dev - rr$null)/n))/(1 - exp(-rr$null/n)) #fmsb
 
 #library(DescTools, quietly=T) # Install fail
-library(fmsb, quietly=T)
-library(r2redux, quietly=T)
+if (!require(fmsb, quietly=T)) install.packages('fmsb')
+if (!require(r2redux, quietly=T)) install.packages('r2redux')
