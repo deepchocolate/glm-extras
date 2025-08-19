@@ -22,7 +22,7 @@ install.packages('glm-extras-0.0.3.tar.gz', repos=NULL)
 
 ## Usage: `regCompact`
 
-```
+```R
 library(glmExtras)
 ### Simulate data
 # Sample size
