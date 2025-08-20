@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/deepchocolate/glm-extras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/deepchocolate/glm-extras/actions/workflows/R-CMD-check.yaml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16905852)](https://doi.org/10.5281/zenodo.16905852)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16905852.svg)](https://doi.org/10.5281/zenodo.16905852)
 <!-- badges: end -->
 
 Just some convenience functions for running regressions with R's `glm` and
